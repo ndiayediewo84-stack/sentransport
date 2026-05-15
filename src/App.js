@@ -37,6 +37,7 @@ function App() {
 
  const[recherche , setRecherche ] = useState("") ;
  const[ligneSelectionnee , setLigneSelectionnee ] = useState(null) ;
+ const [nbRecherches, setNbRecherches] = useState(0);
 
  // Filtrer les lignes selon le texte tape
  const lignesFiltrees = lignes.filter( l =>
@@ -53,15 +54,29 @@ function App() {
          }   
     }
 
+    function handleRecherche(valeur) {
+      setRecherche(valeur);
+      setNbRecherches(nbRecherches + 1);
+     }
+
  return(
  <div className ="App">
  <Header />
  <main className ="contenu">
-  <Recherche valeur ={recherche} onChange ={setRecherche} />
+    <p>Vous avez effectué {nbRecherches} recherche(s)</p>
+  <Recherche valeur={recherche} onChange={handleRecherche} />
+  
   <p className ="resultat-recherche">
     {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' :
     ''} trouvee {lignesFiltrees.length > 1 ? 's' : ''}
   </p >
+v {lignesFiltrees.length === 0 ? (
+  <p>Aucune ligne trouvée</p>
+) : (
+  <p className="resultat-recherche">
+    {lignesFiltrees.length} ligne{lignesFiltrees.length > 1 ? 's' : ''} trouvée{lignesFiltrees.length > 1 ? 's' : ''}
+  </p>
+)}
   {lignesFiltrees.map(ligne => (
     <LigneBus
       key ={ligne.id}
